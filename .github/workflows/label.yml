@@ -5,18 +5,17 @@
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
 
-name: Labeler
+name: Help Wanted Labeler
 
 on:
   issues:
-    types: [opened, edited]
+    types: [opened]
 
 jobs:
   label:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       issues: write
 
     steps:
@@ -25,10 +24,12 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
+          const github = context.github;
           github.issues.addLabels({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: context.issue.number,
             labels: ['help wanted']
+          })
           })
 
